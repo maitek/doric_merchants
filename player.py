@@ -3,8 +3,6 @@ import random
 class Player:
     def __init__(self, player_id):
         self.player_id = player_id
-        #self.hand = Hand()
-        #self.town = Town()
 
         start_items = {
             "Wood": random.randint(0,5),
@@ -12,44 +10,57 @@ class Player:
             "Gold": random.randint(0,5),
         }
 
-        self.market_prices = {} # {item: price}
+        self.market = {} # {item: price}
         self.inventory = start_items # {item: amount}
         self.merchant_pos = "Home"
-        self.money = 10
+        self.money = 100
         self.victory_points = 0
+    
+    def log(self, log_string):
+        print("Player {}: {}".format(self.player_id, log_string))
+ 
+    def buy(self, item, amount, other_player):
+
+        cost = other_player.market[item]*amount
+
+        if amount > other_player.inventory[item]:
+            self.log("Tried to buy {} items, but only {} available".format(self.money,cost))
+            return
+
+        if cost > self.money:
+            self.log("Tried to buy {} {} items. Not enough money: {} < {}".format(amount, item,self.money,cost))
+            return
+            
+        # make transaction
+        self.money -= cost
+        other_player.money += cost
+        other_player.inventory[item] -= amount
+        self.inventory[item] += amount
+        self.log("Buying: {} {}'s for {} from player {}".format(amount, item, cost, other_player.player_id))
         
-        # store state the player knows about the game
-        self.observations = {}
-
-    def sharable_info(self):
-        # info to be shared with other players
-        shareble_info = {
-            "player_id": self.player_id,
-            "market_price": self.market_prices
-        }
-        return shareble_info
-
-    def observe(self, other_player_info):
+        
+    def set_player_refs(self, other_player):
         # get latest info about other player
-        self.observations["other_player_info"] = other_player_info
+        self.other_players = other_player
 
     def adjust_market(self):
-        print("player {}: adjust market".format(self.player_id))
+        self.log("adjust market")
         for item, amount in self.inventory.items():
             price = random.randint(10, 20)
-            self.market_prices[item] = price
-        print(self.market_prices)
-        print(self.inventory)
+            self.market[item] = price
+        self.log(self.market)
+        self.log(self.inventory)
         
     def trade(self):
-        print("player {}: trade".format(self.player_id))
+        self.log("trade")
         # select fellow merchant
-        options = [x["player_id"] for x in self.observations["other_player_info"]]
-        options = [x for x in options if x != self.player_id]
-        fellow_merchant = random.choice(options)
-        print("Player {} choose player {} to trade with".format(self.player_id,fellow_merchant))
-
+        fellow_merchant = random.choice(self.other_players)
+        self.log("Choosing player {} to trade with".format(fellow_merchant.player_id))
         
+        item = random.choice(fellow_merchant.market.keys())
+        amount = random.randint(0, fellow_merchant.inventory[item])
+        self.buy(item, amount, fellow_merchant)
+        #import pdb; pdb.set_trace()
         return None
 
     def build(self):

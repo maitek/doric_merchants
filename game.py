@@ -11,6 +11,10 @@ class Game:
         # init players
         self.players = [Player(player_id=x) for x in range(num_players)]
 
+        # init players references to other players
+        for player in self.players:
+            other_players = [x for x in self.players if x != player]
+            player.set_player_refs(other_players)
 
     def run(self):
         
@@ -19,10 +23,9 @@ class Game:
         for round in range(num_rounds):
             print("=== Round {} ===".format(round))
             for state in self.states:
-                all_player_info = [x.sharable_info() for x in self.players]
                 for player in self.players:
                     # observe game and player states
-                    player.observe(all_player_info)
+                    
 
                     player_state_func = getattr(player, state)
                     player_state_func()
