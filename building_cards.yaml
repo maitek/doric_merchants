@@ -1,0 +1,58 @@
+deck:
+  - {card: Olive Garden,  num: 4}
+  - {card: Fields,  num: 4}
+  - {card: Grape Yard,  num: 4}
+
+
+card:
+  - name: Olive Garden 
+    description: "Produce 1 olive per turn"
+    prerequisite: None
+    cost: 
+      - 5 Drachma
+    production:
+      - 1 olive
+    victory_points: 0
+
+  - name: Fields
+    description: "Produce 2 grain per turn"
+    prerequisite: None
+    cost: 
+      - 5 Drachma
+    production:
+      - 2 grain
+    victory_points: 0
+
+  - name: Grape Yard
+    prerequisite: None
+    description: "Produce 1 grape per turn"
+    prerequisite: None
+    cost: 
+      - 7 Drachma
+    production:
+      - 2 grain
+    victory_points: 0
+
+
+#Olive - olive oil
+#Grape - wine
+#Grains - flour 
+#Clay - pottery
+#Wood - furniture
+#1x stone - copper - tools
+#2x stone - Bronz - weapons
+#3x stones - Gold - jewlery
+
+#Olive garden - olives
+#Grape yard - grapes
+#Farm - grains
+#Olive press - olive oil (from olives)
+#Mill - flour from grains
+#Carpenter - furniture from wood
+#Pottery - pottery from clay
+#Stone quarry - stone
+#Copper quarry - copper
+#Tin quarry - tin
+#Iron querry - iron
+#Black smith - bronze from copper and tin, copper items from copper, weapons from bronze, iron
+
