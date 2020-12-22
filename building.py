@@ -35,14 +35,17 @@ class BuildingDeck():
         return cards.pop()
 
 class BuildingsCard():
-    def __init__(self, name, description, cost, production, victory_points, prerequisite):
-        self.name = name # "Wood shop"
-        self.cost = cost # e.g {"wood": 5, "money": 10}
-        self.production = production # e.g {"wood": 2}
-        self.victory_points = victory_points # 2
+    def __init__(self, name, description, cost, production, victory_points):
+        self.name = name
+        self.description = description
+        self.cost = {x.split(" ")[1]: float(x.split(" ")[0]) for x in cost}
+        self.production = production 
+        self.victory_points = victory_points
 
     def __repr__(self):
         return "<BuildingsCard: {}>".format(self.name)
+
     
 deck = BuildingDeck()
+import pdb; pdb.set_trace()
 print(deck.cards)
