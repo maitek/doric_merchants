@@ -20,6 +20,8 @@ class Game:
         
         num_rounds = 2
         
+        self.print_game_stats()
+
         for round in range(num_rounds):
             print("=== Round {} ===".format(round))
             for state in self.states:
@@ -29,7 +31,12 @@ class Game:
 
                     player_state_func = getattr(player, state)
                     player_state_func()
+            self.print_game_stats()
         return None
+
+    def print_game_stats(self):
+        for player in self.players:
+            print("{} {} {} {}".format(player.player_id, player.money, player.inventory, player.victory_points))
 
 if __name__ == "__main__":
     game = Game(num_players=4)

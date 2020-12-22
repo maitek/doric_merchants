@@ -5,16 +5,16 @@ class Player:
         self.player_id = player_id
 
         start_items = {
-            "Wood": random.randint(0,5),
-            "Stone": random.randint(0,5),
-            "Gold": random.randint(0,5),
+            "Grain": 3,
+            "Wood": 3,
         }
 
         self.market = {} # {item: price}
         self.inventory = start_items # {item: amount}
         self.merchant_pos = "Home"
-        self.money = 100
+        self.money = 50
         self.victory_points = 0
+        self.buildings = []
     
     def log(self, log_string):
         print("Player {}: {}".format(self.player_id, log_string))
@@ -46,7 +46,7 @@ class Player:
     def adjust_market(self):
         self.log("adjust market")
         for item, amount in self.inventory.items():
-            price = random.randint(10, 20)
+            price = random.randint(10, 50)
             self.market[item] = price
         self.log(self.market)
         self.log(self.inventory)

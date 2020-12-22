@@ -6,6 +6,7 @@
 # can only produce one resource per building per turn (to limit production)
 # since production takes time it is faster and better to trade for some items instead of producing everything by yourself
 # simulate max score with all caeds available, what is max score with optimal luck?
+# to balance players and prevent one player from getting to much money tax can be applied, e.g. 10% tax: players must give away 10 percent of their money (rounded down) after every income turn
 
 deck:
   - {card: Forest,  num: 7}
