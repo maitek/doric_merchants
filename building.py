@@ -54,19 +54,20 @@ class BuildingsCard():
     def __repr__(self):
         return "<BuildingsCard: {}>".format(self.name)
 
-    
-deck = BuildingDeck()
-print(deck.cards)
-deck.shuffle_()
-#import pdb; pdb.set_trace()
-print(deck.cards)
 
+
+# ==============================
 # Unit tests
-def test_building():
+def test_building_can_buld():
     card = BuildingsCard(name="", description="", cost=["5 wood", "3 grain"], production={}, victory_points=0)
     inventory = {"wood": 5, "grain": 3}
     assert card.can_build(inventory) == True
     inventory = {"wood": 5, "grain": 2}
     assert card.can_build(inventory) == False
 
-test_building()
+def test_deck_draw_card():
+    deck = BuildingDeck()
+    num_cards = len(deck.cards)
+    card = deck.draw_card()
+    assert len(deck.cards) == num_cards-1
+    

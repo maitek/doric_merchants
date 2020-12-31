@@ -5,8 +5,8 @@ class Player:
         self.player_id = player_id
 
         start_items = {
-            "Grain": 3,
-            "Wood": 3,
+            "Grain": 10,
+            "Wood": 10,
         }
 
         self.market = {} # {item: price}
@@ -72,9 +72,13 @@ class Player:
 
     def build(self):
         print("player {}: build".format(self.player_id))
+        # build building action
+        can_build_buildings = [x for x in self.building_cards if x.can_build(self.inventory)]
         
-
-
+        if len(can_build_buildings) > 0:
+            to_build = random.choice(can_build_buildings)
+            import pdb; pdb.set_trace()
+        # TODO discard card action
         return None
 
     def collect(self):
