@@ -14,7 +14,7 @@ class BuildingDeck():
     def __init__(self):
 
         with open("building_cards.yaml") as f:
-            card_data = yaml.load(f)
+            card_data = yaml.safe_load(f)
 
         deck = []
         for card in card_data["deck"]:
@@ -38,6 +38,19 @@ class BuildingsCard():
         self.production = production 
         self.victory_points = victory_points
 
+    def can_build(self, inventory):
+        # Return true if inventory is available to build building
+        for item, cost in self.cost.items():
+            if item not in inventory.keys():
+                # item not available
+                return False 
+            else:
+                if cost > inventory[item]:
+                    # item available but not enough
+                    return False 
+        # item available and enough to build   
+        return True
+        
     def __repr__(self):
         return "<BuildingsCard: {}>".format(self.name)
 
@@ -47,3 +60,13 @@ print(deck.cards)
 deck.shuffle_()
 #import pdb; pdb.set_trace()
 print(deck.cards)
+
+# Unit tests
+def test_building():
+    card = BuildingsCard(name="", description="", cost=["5 wood", "3 grain"], production={}, victory_points=0)
+    inventory = {"wood": 5, "grain": 3}
+    assert card.can_build(inventory) == True
+    inventory = {"wood": 5, "grain": 2}
+    assert card.can_build(inventory) == False
+
+test_building()
