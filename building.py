@@ -25,9 +25,9 @@ class BuildingDeck():
         self.cards = [BuildingsCard(**cards[x]) for x in deck]
     
     def draw_card(self):
-        return cards.pop()
+        return self.cards.pop()
     
-    def shuffle(self):
+    def shuffle_(self):
         random.shuffle(self.cards)
 
 class BuildingsCard():
@@ -44,6 +44,6 @@ class BuildingsCard():
     
 deck = BuildingDeck()
 print(deck.cards)
-deck.shuffle()
+deck.shuffle_()
 #import pdb; pdb.set_trace()
 print(deck.cards)

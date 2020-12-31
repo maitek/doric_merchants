@@ -1,4 +1,5 @@
 from player import Player
+from building import BuildingDeck
 
 class Game:
     def __init__(self, num_players):
@@ -10,16 +11,20 @@ class Game:
         self.game_state = "Adjust Market" 
         # init players
         self.players = [Player(player_id=x) for x in range(num_players)]
+        self.builidng_deck = BuildingDeck()
+        self.builidng_deck.shuffle_()
+        
 
         # init players references to other players
         for player in self.players:
             other_players = [x for x in self.players if x != player]
-            player.set_player_refs(other_players)
+            player.set_player_refs(other_players, self.builidng_deck)
+            player.draw_start_cards(self.builidng_deck)
+        
 
     def run(self):
         
         num_rounds = 2
-        
         self.print_game_stats()
 
         for round in range(num_rounds):

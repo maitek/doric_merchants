@@ -15,6 +15,7 @@ class Player:
         self.money = 50
         self.victory_points = 0
         self.buildings = []
+        self.building_cards = []
     
     def log(self, log_string):
         print("Player {}: {}".format(self.player_id, log_string))
@@ -39,9 +40,15 @@ class Player:
         self.log("Buying: {} {}'s for {} from player {}".format(amount, item, cost, other_player.player_id))
         
         
-    def set_player_refs(self, other_player):
+    def set_player_refs(self, other_players_ref, building_deck_ref):
         # get latest info about other player
-        self.other_players = other_player
+        self.other_players_ref = other_players_ref
+        self.building_deck_ref = building_deck_ref
+
+    def draw_start_cards(self, building_deck):
+        for i in range(5):
+            card = building_deck.draw_card()
+            self.building_cards.append(card)
 
     def adjust_market(self):
         self.log("adjust market")
@@ -54,7 +61,7 @@ class Player:
     def trade(self):
         self.log("trade")
         # select fellow merchant
-        fellow_merchant = random.choice(self.other_players)
+        fellow_merchant = random.choice(self.other_players_ref)
         self.log("Choosing player {} to trade with".format(fellow_merchant.player_id))
         
         item = random.choice(fellow_merchant.market.keys())
@@ -65,9 +72,23 @@ class Player:
 
     def build(self):
         print("player {}: build".format(self.player_id))
+        
+
+
         return None
 
     def collect(self):
         print("player {}: collect".format(self.player_id))
+        # collect resources
+        for building in self.buildings:
+            for item in building.production:
+                produced_items = item["results"]
+            import pdb; pdb.set_trace()
+            self.inventory[item] += amount
+
+        # update victory points
+
+        # update money
         return None
     
+
