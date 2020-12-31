@@ -1,5 +1,6 @@
 #import optuna
 import yaml
+import random
 #def objective(trial):
 #    x = trial.suggest_uniform('x', -10, 10)
 #    return (x - 2) ** 2
@@ -8,13 +9,6 @@ import yaml
 #study.optimize(objective, n_trials=100)
 
 #study.best_params  # E.g. {'x': 2.002108042}
-
-
-
-#def generate_building_cards(num_cards, num_resources, ):
-#        card = {}
-
-
 
 class BuildingDeck():
     def __init__(self):
@@ -27,12 +21,14 @@ class BuildingDeck():
             deck += [card["card"]]*card["num"] 
 
         cards = {x["name"]: x for x in card_data["card"]}
-        import pdb; pdb.set_trace()
         
         self.cards = [BuildingsCard(**cards[x]) for x in deck]
     
     def draw_card(self):
         return cards.pop()
+    
+    def shuffle(self):
+        random.shuffle(self.cards)
 
 class BuildingsCard():
     def __init__(self, name, description, cost, production, victory_points):
@@ -47,5 +43,7 @@ class BuildingsCard():
 
     
 deck = BuildingDeck()
-import pdb; pdb.set_trace()
+print(deck.cards)
+deck.shuffle()
+#import pdb; pdb.set_trace()
 print(deck.cards)
