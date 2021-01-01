@@ -5,8 +5,8 @@ class Player:
         self.player_id = player_id
 
         start_items = {
-            "Grain": 10,
-            "Wood": 10,
+            "grain": 5,
+            "wood": 5,
         }
 
         self.market = {} # {item: price}
@@ -15,7 +15,7 @@ class Player:
         self.money = 50
         self.victory_points = 0
         self.buildings = []
-        self.building_cards = []
+        self.building_card_hand = []
     
     def log(self, log_string):
         print("Player {}: {}".format(self.player_id, log_string))
@@ -48,7 +48,7 @@ class Player:
     def draw_start_cards(self, building_deck):
         for i in range(5):
             card = building_deck.draw_card()
-            self.building_cards.append(card)
+            self.building_card_hand.append(card)
 
     def adjust_market(self):
         self.log("adjust market")
@@ -73,12 +73,28 @@ class Player:
     def build(self):
         print("player {}: build".format(self.player_id))
         # build building action
-        can_build_buildings = [x for x in self.building_cards if x.can_build(self.inventory)]
-        
+        can_build_buildings = [(i,x) for i, x in enumerate(self.building_card_hand) if x.can_build(self.inventory)]
         if len(can_build_buildings) > 0:
-            to_build = random.choice(can_build_buildings)
-            import pdb; pdb.set_trace()
-        # TODO discard card action
+            to_build_choice = random.choice(can_build_buildings)
+            to_build_idx = to_build_choice[0]
+            to_build = to_build_choice[1]
+            for item, cost in to_build.cost.items():
+                self.inventory[item] -= cost
+                self.buildings.append(to_build)
+                self.building_card_hand.pop(to_build_idx)
+
+        # change building card action
+        if len(self.building_card_hand) > 0: 
+            to_change_idx = random.randint(0,len(self.building_card_hand)-1)
+            self.building_card_hand.pop(to_change_idx)
+
+        # TODO discard pile
+
+        # draw cards to fill hand
+        while self.building_card_hand < 5:
+            card = building_deck.draw_card()
+            self.building_card_hand.append(card)
+
         return None
 
     def collect(self):
@@ -86,7 +102,7 @@ class Player:
         # collect resources
         for building in self.buildings:
             for item in building.production:
-                produced_items = item["results"]
+                produced_items = item["result"]
             import pdb; pdb.set_trace()
             self.inventory[item] += amount
 
