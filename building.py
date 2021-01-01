@@ -1,6 +1,7 @@
 #import optuna
 import yaml
 import random
+from copy import deepcopy
 #def objective(trial):
 #    x = trial.suggest_uniform('x', -10, 10)
 #    return (x - 2) ** 2
@@ -21,8 +22,7 @@ class BuildingDeck():
             deck += [card["card"]]*card["num"] 
 
         cards = {x["name"]: x for x in card_data["card"]}
-        
-        self.cards = [BuildingsCard(**cards[x]) for x in deck]
+        self.cards = [BuildingsCard(**deepcopy(cards[x])) for x in deck]
     
     def draw_card(self):
         return self.cards.pop()
@@ -34,9 +34,22 @@ class BuildingsCard():
     def __init__(self, name, description, cost, production, victory_points):
         self.name = name
         self.description = description
-        self.cost = {x.split(" ")[1]: float(x.split(" ")[0]) for x in cost}
-        self.production = production 
+        self.cost = self.parse_item_cost(cost)
+        print(self.name, production)
+        self.production = production
+        for idx, production_option in enumerate(self.production):
+            self.production[idx]["cost"] = self.parse_item_cost(production_option.get("cost", []))
+            self.production[idx]["result"] = self.parse_item_cost(production_option.get("result",[])) 
+           
         self.victory_points = victory_points
+
+        
+
+    def parse_item_cost(self, item_list):
+        print("item",item_list)
+        # convert ["2 grain", "4 stone"] into {"grain": 2, "stone": 4}
+        return {x.split(" ")[1]: float(x.split(" ")[0]) for x in item_list}
+
 
     def can_build(self, inventory):
         # Return true if inventory is available to build building
@@ -50,6 +63,7 @@ class BuildingsCard():
                     return False 
         # item available and enough to build   
         return True
+    
         
     def __repr__(self):
         return "<BuildingsCard: {}>".format(self.name)

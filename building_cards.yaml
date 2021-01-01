@@ -113,9 +113,9 @@ card:
       - 1 wood
       - 1 lime stone
     production:
-      - {"cost": 1 copper, result: 1 copper tools}
-      - {"cost": 1 bronze, result: 1 weapons}
-      - {"cost": 1 gold, result: 1 jewlery}
+      - {"cost": [1 copper], result: [1 copper tools]}
+      - {"cost": [1 bronze], result: [1 weapons]}
+      - {"cost": [1 gold], result: [1 jewlery]}
     victory_points: 2
 
     # level 4 (victory points)
@@ -170,7 +170,7 @@ card:
       - 4 lime stone
       - 1 copper
     production:
-      - {"cost": 1 copper, result: 1 victory_point}
+      - {"cost": [1 copper], result: [1 victory_point]}
     victory_points: 2
 
 

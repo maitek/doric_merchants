@@ -106,6 +106,9 @@ class Player:
             import pdb; pdb.set_trace()
             self.inventory[item] += amount
 
+        # craft items
+        
+
         # update victory points
 
         # update money
