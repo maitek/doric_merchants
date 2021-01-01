@@ -99,19 +99,21 @@ class Player:
 
     def collect(self):
         print("player {}: collect".format(self.player_id))
+
         # collect resources
         for building in self.buildings:
-            for item in building.production:
-                produced_items = item["result"]
-            import pdb; pdb.set_trace()
-            self.inventory[item] += amount
+            for production_option in building.production:
+                
+                # TODO choose what to produce
 
-        # craft items
-        
+                # pay production cost
+                for item_name, item_amount in production_option["cost"].items():
+                    self.inventory[item_name] -= item_amount
+                
+                # get produced items
+                for item_name, item_amount in production_option["result"].items():
+                    self.inventory[item_name] += item_amount
 
-        # update victory points
-
-        # update money
         return None
     
 

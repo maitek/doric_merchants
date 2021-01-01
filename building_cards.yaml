@@ -70,7 +70,7 @@ card:
     cost: 
       - 2 wood
     production:
-      - {"cost": ["2 grain"], result: ["2 lime stone"]}
+      - {"cost": ["2 grain"], result: ["2 lime_stone"]}
       - {"cost": ["2 grain"], result: ["1 marble"]}
       - {"cost": ["1 grain"], result: ["1 ore"]}
     victory_points: 1
@@ -89,7 +89,7 @@ card:
   - name: Press
     description: "Produce olive oil or wine"
     cost: 
-      - 2 lime stone
+      - 2 lime_stone
     production:
       - {"cost": ["2 olive"], result: ["1 olive oil"]}
       - {"cost": ["2 grape"], result: ["1 wine"]}
@@ -99,7 +99,7 @@ card:
     description: "Produces metal from stone"
     cost: 
       - 1 wood
-      - 1 lime stone
+      - 1 lime_stone
     production:
       - {"cost": ["2 ore"], result: ["2 copper"]}
       - {"cost": ["1 ore"], result: ["1 tin"]}
@@ -111,7 +111,7 @@ card:
     description: "Produce metal items from metal"
     cost: 
       - 1 wood
-      - 1 lime stone
+      - 1 lime_stone
     production:
       - {"cost": [1 copper], result: [1 copper tools]}
       - {"cost": [1 bronze], result: [1 weapons]}
@@ -167,7 +167,7 @@ card:
   - name: Academy
     description: "Produce metal items from metal"
     cost: 
-      - 4 lime stone
+      - 4 lime_stone
       - 1 copper
     production:
       - {"cost": [1 copper], result: [1 victory_point]}
