@@ -9,6 +9,17 @@ import traceback
                 import pdb; pdb.set_trace()
 """
 
+class smartdebug(): 
+    def __init__(self): 
+        print('init method called') 
+          
+    def __enter__(self): 
+        print('enter method called') 
+        return self
+      
+    def __exit__(self, exc_type, exc_value, exc_traceback): 
+        print('exit method called') 
+
 class Player:
     def __init__(self, player_id):
         self.player_id = player_id
@@ -19,6 +30,11 @@ class Player:
         self.victory_points = 0
         self.buildings = []
         self.building_card_hand = []
+
+        # bookeeping history
+        self.player_inventory_history = list()
+        self.player_money_history = list()
+
     
     def log(self, log_string):
         print("Player {}: {}".format(self.player_id, log_string))
@@ -26,12 +42,12 @@ class Player:
     def buy(self, item, amount, other_player):
 
         cost = other_player.market[item]*amount
-
+       
         if amount > other_player.inventory[item]:
             self.log("Tried to buy {} items, but only {} available".format(self.money,cost))
             return
 
-        if cost > self.money:
+        if self.money < cost:
             self.log("Tried to buy {} {} items. Not enough money: {} < {}".format(amount, item,self.money,cost))
             return
             
@@ -129,9 +145,12 @@ class Player:
                     else:
                         continue
                 # get produced items
-                for item_name, item_amount in production_option["result"].items():
-                    
+                for item_name, item_amount in production_option["result"].items():    
                     self.inventory[item_name] += item_amount
         return None
+
+    def log_data(self):
+            self.player_inventory_history.append(self.inventory)
+            self.player_money_history.append(self.money)
     
 

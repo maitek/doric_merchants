@@ -1,7 +1,7 @@
 import random
 from player import Player
 from building import BuildingDeck
-
+import pandas as pd
 
 class Game:
     def __init__(self, num_players):
@@ -22,7 +22,7 @@ class Game:
             other_players = [x for x in self.players if x != player]
             player.set_player_refs(other_players, self.builidng_deck)
             player.draw_start_cards(self.builidng_deck)
-            player.init_inventory({"wood": 5, "grain": 5}, self.builidng_deck)
+            player.init_inventory({"wood": 15, "grain": 15}, self.builidng_deck)
         
     def run(self):
         
@@ -38,21 +38,36 @@ class Game:
 
                     player_state_func = getattr(player, state)
                     player_state_func()
+            
+            # book keeping
+            for player in self.players:
+                player.log_data()
+
             self.print_game_stats()
+
+            
+        self.print_game_results()
+        for player in self.players:
+            print("Player stats")
+            print(pd.DataFrame(player.player_inventory_history))
+            print(pd.DataFrame(player.player_money_history))
         return None
 
     def print_game_stats(self):
         for player in self.players:
             print("{} {} {} {}".format(player.player_id, player.money, player.inventory, player.victory_points))
 
+    def print_game_results(self):
+        for player in self.players:
+            print("{}".format(player.buildings))
 if __name__ == "__main__":
     
-    for i in range(20):
+    for i in range(1):
         
         print("=========== ")
         print("GAME SEED ", i)
         print("=========== ")
-        random.seed(i)
+        #random.seed(i)
         game = Game(num_players=4)
         game.run()
 
