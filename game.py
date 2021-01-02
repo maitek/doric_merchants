@@ -20,8 +20,8 @@ class Game:
             other_players = [x for x in self.players if x != player]
             player.set_player_refs(other_players, self.builidng_deck)
             player.draw_start_cards(self.builidng_deck)
+            player.init_inventory({"wood": 5, "grain": 5}, self.builidng_deck)
         
-
     def run(self):
         
         num_rounds = 2

@@ -45,6 +45,16 @@ class Player:
         self.other_players_ref = other_players_ref
         self.building_deck_ref = building_deck_ref
 
+    def init_inventory(self,start_inventory,building_deck):
+        # init inventory
+        all_resources = building_deck.get_all_resources()
+        self.inventory = dict()
+        for item in all_resources:
+            self.inventory[item] = 0
+        for key, value in start_inventory.items():
+            self.inventory[key] = value
+
+
     def draw_start_cards(self, building_deck):
         for i in range(5):
             card = building_deck.draw_card()
@@ -113,7 +123,6 @@ class Player:
                 # get produced items
                 for item_name, item_amount in production_option["result"].items():
                     self.inventory[item_name] += item_amount
-
         return None
     
 
