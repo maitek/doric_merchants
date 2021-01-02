@@ -1,16 +1,19 @@
 import random
+import traceback
+
+"""
+            try:
+                self.building_card_hand.pop(to_build_idx)
+            except Exception, err:
+                print(traceback.format_exc())
+                import pdb; pdb.set_trace()
+"""
 
 class Player:
     def __init__(self, player_id):
         self.player_id = player_id
-
-        start_items = {
-            "grain": 5,
-            "wood": 5,
-        }
-
         self.market = {} # {item: price}
-        self.inventory = start_items # {item: amount}
+        self.inventory = {}
         self.merchant_pos = "Home"
         self.money = 50
         self.victory_points = 0
@@ -75,6 +78,8 @@ class Player:
         self.log("Choosing player {} to trade with".format(fellow_merchant.player_id))
         
         item = random.choice(fellow_merchant.market.keys())
+        #import pdb; pdb.set_trace()
+        print(fellow_merchant.inventory[item])
         amount = random.randint(0, fellow_merchant.inventory[item])
         self.buy(item, amount, fellow_merchant)
         #import pdb; pdb.set_trace()
@@ -88,11 +93,16 @@ class Player:
             to_build_choice = random.choice(can_build_buildings)
             to_build_idx = to_build_choice[0]
             to_build = to_build_choice[1]
+            # pay building cost
             for item, cost in to_build.cost.items():
                 self.inventory[item] -= cost
-                self.buildings.append(to_build)
+            # build
+            self.buildings.append(to_build)
+            try:
                 self.building_card_hand.pop(to_build_idx)
-
+            except Exception, err:
+                print(traceback.format_exc())
+                import pdb; pdb.set_trace()
         # change building card action
         if len(self.building_card_hand) > 0: 
             to_change_idx = random.randint(0,len(self.building_card_hand)-1)
@@ -118,8 +128,10 @@ class Player:
 
                 # pay production cost
                 for item_name, item_amount in production_option["cost"].items():
-                    self.inventory[item_name] -= item_amount
-                
+                    if self.inventory[item_name] - item_amount >= 0: 
+                        self.inventory[item_name] -= item_amount
+                    else:
+                        continue
                 # get produced items
                 for item_name, item_amount in production_option["result"].items():
                     self.inventory[item_name] += item_amount

@@ -1,5 +1,7 @@
+import random
 from player import Player
 from building import BuildingDeck
+
 
 class Game:
     def __init__(self, num_players):
@@ -24,7 +26,7 @@ class Game:
         
     def run(self):
         
-        num_rounds = 2
+        num_rounds = 10
         self.print_game_stats()
 
         for round in range(num_rounds):
@@ -44,8 +46,15 @@ class Game:
             print("{} {} {} {}".format(player.player_id, player.money, player.inventory, player.victory_points))
 
 if __name__ == "__main__":
-    game = Game(num_players=4)
-    game.run()
+    
+    for i in range(20):
+        
+        print("=========== ")
+        print("GAME SEED ", i)
+        print("=========== ")
+        random.seed(i)
+        game = Game(num_players=4)
+        game.run()
 
 
 
