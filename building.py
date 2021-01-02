@@ -24,24 +24,19 @@ class BuildingDeck():
         cards = {x["name"]: x for x in card_data["card"]}
         self.cards = [BuildingsCard(**deepcopy(cards[x])) for x in deck]
 
-        resource_list = self.get_all_resources()
-        print(resource_list)
-    
-    def draw_card(self):
-        return self.cards.pop()
-    
-    def shuffle_(self):
-        random.shuffle(self.cards)
-
-    def get_all_resources(self):
-        """ Return a list of all resources """
         resource_list = set()
         for card in self.cards:
             #import pdb; pdb.set_trace()
             for production_option in card.production:
                 for item in production_option["result"]:
                     resource_list.add(item)
-        return list(resource_list)
+        self.all_resource_list = list(resource_list)
+
+    def draw_card(self):
+        return self.cards.pop()
+    
+    def shuffle_(self):
+        random.shuffle(self.cards)
 
 class BuildingsCard():
     def __init__(self, name, description, cost, production, victory_points):

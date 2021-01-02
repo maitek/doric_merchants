@@ -50,7 +50,7 @@ class Player:
 
     def init_inventory(self,start_inventory,building_deck):
         # init inventory
-        all_resources = building_deck.get_all_resources()
+        all_resources = building_deck.all_resource_list
         self.inventory = dict()
         for item in all_resources:
             self.inventory[item] = 0
@@ -98,11 +98,7 @@ class Player:
                 self.inventory[item] -= cost
             # build
             self.buildings.append(to_build)
-            try:
-                self.building_card_hand.pop(to_build_idx)
-            except Exception, err:
-                print(traceback.format_exc())
-                import pdb; pdb.set_trace()
+            self.building_card_hand.pop(to_build_idx)
         # change building card action
         if len(self.building_card_hand) > 0: 
             to_change_idx = random.randint(0,len(self.building_card_hand)-1)
@@ -134,6 +130,7 @@ class Player:
                         continue
                 # get produced items
                 for item_name, item_amount in production_option["result"].items():
+                    
                     self.inventory[item_name] += item_amount
         return None
     
