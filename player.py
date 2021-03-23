@@ -61,24 +61,31 @@ class Player:
 
     def adjust_market(self):
         self.log("adjust market")
+        # Player adjusts market price of its inventory items
+        self.market = {}
         for item, amount in self.inventory.items():
-            price = random.randint(10, 50)
-            self.market[item] = price
+            if amount > 0:
+                price = random.randint(5, 20)
+                self.market[item] = price
         self.log(self.market)
         self.log(self.inventory)
         
     def trade(self):
         self.log("trade")
-        # select fellow merchant
+        # Player select a fellow merchant player to trade with
         fellow_merchant = random.choice(self.other_players_ref)
         self.log("Choosing player {} to trade with".format(fellow_merchant.player_id))
         
-        item = random.choice(fellow_merchant.market.keys())
-        #import pdb; pdb.set_trace()
-        print(fellow_merchant.inventory[item])
-        amount = random.randint(0, fellow_merchant.inventory[item])
-        self.buy(item, amount, fellow_merchant)
-        #import pdb; pdb.set_trace()
+        can_afford_items = [x for x,y in fellow_merchant.market.items() if y <= self.money]
+        if len(can_afford_items) > 0:
+            item = random.choice(can_afford_items)
+            print(fellow_merchant.inventory[item])
+            
+            #max_amount = 
+            #import pdb; pdb.set_trace()
+            amount = random.randint(0, fellow_merchant.inventory[item])
+            self.buy(item, amount, fellow_merchant)
+            
         return None
 
     def build(self):
