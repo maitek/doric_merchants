@@ -23,7 +23,6 @@ deck:
 
 
 
-
 # construction 
 #- wood (1)
 #- lime stone (2)
@@ -131,7 +130,7 @@ card:
   - name: Library
     description: "Produce metal items from metal"
     cost: 
-      - 3 marble
+      - 3 lime_stone
       - 2 copper
     production:
       []
@@ -158,7 +157,8 @@ card:
   - name: Town Hall
     description: "Produce metal items from metal"
     cost: 
-      - 4 marble
+      - 1 marble
+      - 2 lime_stone
       - 1 copper
     production:
       []

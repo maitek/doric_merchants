@@ -1,24 +1,4 @@
 import random
-import traceback
-
-"""
-            try:
-                self.building_card_hand.pop(to_build_idx)
-            except Exception, err:
-                print(traceback.format_exc())
-                import pdb; pdb.set_trace()
-"""
-
-class smartdebug(): 
-    def __init__(self): 
-        print('init method called') 
-          
-    def __enter__(self): 
-        print('enter method called') 
-        return self
-      
-    def __exit__(self, exc_type, exc_value, exc_traceback): 
-        print('exit method called') 
 
 class Player:
     def __init__(self, player_id):

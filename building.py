@@ -76,8 +76,59 @@ class BuildingsCard():
     def __repr__(self):
         return "<BuildingsCard: {}>".format(self.name)
 
+
+from collections import Counter
+
 if __name__ == "__main__":
     deck = BuildingDeck()
+    print(deck.all_resource_list)
+
+    card_dict = dict()
+    card_counter = Counter([x.name for x in deck.cards])
+
+
+    #relative_value_items = avg_production/game / total_production/game
+    #max_production/game = num_producer_cards*num_items_per_producer
+    #max_
+
+    # theorietical max items that can be produces in one round
+    max_production_dict = dict()
+    for resource in deck.all_resource_list:
+            max_production_per_round = 0
+            for key in card_counter.keys():
+                card_instance = next(x for x in deck.cards if x.name == key)
+                for production_option in card_instance.production:
+                    #import pdb; pdb.set_trace()
+                    max_items_per_producer = production_option["result"].get(resource, 0)
+                    max_production_per_round += card_counter[key] * max_items_per_producer
+                    max_production_dict[resource] = max_production_per_round
+    
+    print("max_production_per_round",max_production_dict)
+
+     # theorietical max items that can be consumed in one round
+    max_consumption_dict = dict()
+    for resource in deck.all_resource_list:
+            max_consumpion_per_round = 0
+            for key in card_counter.keys():
+                card_instance = next(x for x in deck.cards if x.name == key)
+                # building cost
+                building_cost = card_instance.cost.get(resource, 0)
+                max_consumpion_per_round += card_counter[key] * building_cost
+                for production_option in card_instance.production:
+                    # production cost
+                    max_items_per_producer = production_option["cost"].get(resource, 0)
+                    max_consumpion_per_round += card_counter[key] * max_items_per_producer
+                    
+                    max_consumption_dict[resource] = max_consumpion_per_round
+    
+    print("max_consumpion_per_round",max_consumption_dict)
+
+    for key in max_consumption_dict.keys():
+        value = max_consumption_dict[key]/max_production_dict[key]
+        print(key, value)
+
+
+
 
 # ==============================
 # Unit tests
