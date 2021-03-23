@@ -79,11 +79,9 @@ class Player:
         can_afford_items = [x for x,y in fellow_merchant.market.items() if y <= self.money]
         if len(can_afford_items) > 0:
             item = random.choice(can_afford_items)
-            print(fellow_merchant.inventory[item])
-            
-            #max_amount = 
-            #import pdb; pdb.set_trace()
-            amount = random.randint(0, fellow_merchant.inventory[item])
+            price = fellow_merchant.market[item]
+            max_amount = self.money // price
+            amount = random.randint(0, max_amount)
             self.buy(item, amount, fellow_merchant)
             
         return None
