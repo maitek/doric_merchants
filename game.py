@@ -10,13 +10,11 @@ class Game:
         # 3. Build
         # 4. Collect
         self.states = ["adjust_market", "trade", "build", "collect"] 
-        self.game_state = "Adjust Market" 
         # init players
         self.players = [Player(player_id=x) for x in range(num_players)]
         self.builidng_deck = BuildingDeck()
         self.builidng_deck.shuffle_()
         
-
         # init players references to other players
         for player in self.players:
             other_players = [x for x in self.players if x != player]
@@ -33,9 +31,7 @@ class Game:
             print("=== Round {} ===".format(round))
             for state in self.states:
                 for player in self.players:
-                    # observe game and player states
-                    
-
+                    # play state of player
                     player_state_func = getattr(player, state)
                     player_state_func()
             

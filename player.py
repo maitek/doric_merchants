@@ -4,7 +4,7 @@ class Player:
     def __init__(self, player_id):
         self.player_id = player_id
         self.market = {} # {item: price}
-        self.inventory = {}
+        self.inventory = {} # {item: amount}
         self.merchant_pos = "Home"
         self.money = 50
         self.victory_points = 0
@@ -20,15 +20,15 @@ class Player:
         print("Player {}: {}".format(self.player_id, log_string))
  
     def buy(self, item, amount, other_player):
-
+        
         cost = other_player.market[item]*amount
        
         if amount > other_player.inventory[item]:
-            self.log("Tried to buy {} items, but only {} available".format(self.money,cost))
+            raise "Tried to buy {} items, but only {} available".format(self.money,cost)
             return
 
         if self.money < cost:
-            self.log("Tried to buy {} {} items. Not enough money: {} < {}".format(amount, item,self.money,cost))
+            raise "Tried to buy {} {} items. Not enough money: {} < {}".format(amount, item,self.money,cost)
             return
             
         # make transaction
@@ -81,6 +81,7 @@ class Player:
             item = random.choice(can_afford_items)
             price = fellow_merchant.market[item]
             max_amount = self.money // price
+            max_amount = min(max_amount,fellow_merchant.inventory[item])
             amount = random.randint(0, max_amount)
             self.buy(item, amount, fellow_merchant)
             
