@@ -67,9 +67,11 @@ class Player:
             if amount > 0:
                 price = random.randint(5, 20)
                 self.market[item] = price
-        self.log(self.market)
-        self.log(self.inventory)
+        self.log({x:"{} / {}$".format(self.inventory[x],y) for x,y in self.market.items()})
+
         
+
+
     def trade(self):
         self.log("TRADE")
         # Player select a fellow merchant player to trade with
