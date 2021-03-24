@@ -105,6 +105,8 @@ class Player:
             # build
             self.buildings.append(to_build)
             self.building_card_hand.pop(to_build_idx)
+        else:
+            self.log("Cant build any of {}".format([x.name for x in self.building_card_hand]))
         # change building card action
         if len(self.building_card_hand) > 0: 
             to_change_idx = random.randint(0,len(self.building_card_hand)-1)
@@ -113,8 +115,8 @@ class Player:
         # TODO discard pile
 
         # draw cards to fill hand
-        while self.building_card_hand < 5:
-            card = building_deck.draw_card()
+        while len(self.building_card_hand) < 5:
+            card = self.building_deck_ref.draw_card()
             self.building_card_hand.append(card)
 
         return None
