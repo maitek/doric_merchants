@@ -24,19 +24,17 @@ class Player:
         cost = other_player.market[item]*amount
        
         if amount > other_player.inventory[item]:
-            raise "Tried to buy {} items, but only {} available".format(self.money,cost)
-            return
-
+            raise Exception("Tried to buy {} {} items, but only {} available".format(amount,item,other_player.inventory[item]))
+            
         if self.money < cost:
-            raise "Tried to buy {} {} items. Not enough money: {} < {}".format(amount, item,self.money,cost)
-            return
+            raise Exception("Tried to buy {} {} items. Not enough money: {} < {}".format(amount, item,self.money,cost))
             
         # make transaction
         self.money -= cost
         other_player.money += cost
         other_player.inventory[item] -= amount
         self.inventory[item] += amount
-        self.log("Buying: {} {}'s for {} from player {}".format(amount, item, cost, other_player.player_id))
+        self.log("Buying: {} {}'s for {} from player {}, {}$ left".format(amount, item, cost, other_player.player_id, self.money))
         
         
     def set_player_refs(self, other_players_ref, building_deck_ref):
@@ -77,15 +75,16 @@ class Player:
         # Player select a fellow merchant player to trade with
         fellow_merchant = random.choice(self.other_players_ref)
         self.log("Choosing player {} to trade with".format(fellow_merchant.player_id))
-        
+
         can_afford_items = [x for x,y in fellow_merchant.market.items() if y <= self.money]
         if len(can_afford_items) > 0:
             item = random.choice(can_afford_items)
             price = fellow_merchant.market[item]
             max_amount = self.money // price
             max_amount = min(max_amount,fellow_merchant.inventory[item])
-            amount = random.randint(1, max_amount)
-            self.buy(item, amount, fellow_merchant)
+            if max_amount > 1:
+                amount = random.randint(1, max_amount)
+                self.buy(item, amount, fellow_merchant)            
             
         return None
 
@@ -102,7 +101,7 @@ class Player:
             # pay building cost
             for item, cost in to_build.cost.items():
                 self.inventory[item] -= cost
-            self.log("building {}".format(to_build.name))
+            self.log("building {} at cost {} ".format(to_build.name,to_build.cost))
             # build
             self.buildings.append(to_build)
             self.building_card_hand.pop(to_build_idx)
@@ -121,29 +120,33 @@ class Player:
         return None
 
     def collect(self):
-        print("player {}: collect".format(self.player_id))
+        self.log("COLLECT")
 
         # collect resources
         for building in self.buildings:
+
+            # choose among production options
+
+            can_afford_options = []
             for production_option in building.production:
-                
-                # TODO choose what to produce
-                #import pdb; pdb.set_trace()
-                
                 can_afford = True
                 for item_name, item_amount in production_option["cost"].items():
                     if self.inventory[item_name] - item_amount < 0: 
                         can_afford = False
-                 
                 if can_afford:
-                    # pay production cost
-                    for item_name, item_amount in production_option["cost"].items():
-                        self.inventory[item_name] -= item_amount
+                    can_afford_options.append(production_option)
 
-                    # get produced items
-                    for item_name, item_amount in production_option["result"].items():
-                        self.inventory[item_name] += item_amount
-                    self.log("Producing {} {} from {}".format(item_amount,item_name,building.name))
+            production_option = random.choice(building.production)
+
+            if can_afford:
+                # pay production cost
+                for item_name, item_amount in production_option["cost"].items():
+                    self.inventory[item_name] -= item_amount
+
+                # get produced items
+                for item_name, item_amount in production_option["result"].items():
+                    self.inventory[item_name] += item_amount
+                self.log("Producing {} {} from {} at cost {}".format(item_amount,item_name,building.name,production_option["cost"]))
         return None
 
     def log_data(self):

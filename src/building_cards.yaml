@@ -199,3 +199,6 @@ card:
 #Iron querry - iron
 #Black smith - bronze from copper and tin, copper items from copper, weapons from bronze, iron
 
+# item sell/export rule:
+# after production player can choose to sell items to the bank for static cost
+ 

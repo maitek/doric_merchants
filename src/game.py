@@ -24,7 +24,7 @@ class Game:
         
     def run(self):
         
-        num_rounds = 2
+        num_rounds = 20
         self.print_game_stats()
 
         for round in range(num_rounds):
