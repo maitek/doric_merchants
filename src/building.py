@@ -43,7 +43,7 @@ class BuildingsCard():
         self.name = name
         self.description = description
         self.cost = self.parse_item_cost(cost)
-        print(self.name, production)
+        #print(self.name, production)
         self.production = production
         for idx, production_option in enumerate(self.production):
             self.production[idx]["cost"] = self.parse_item_cost(production_option.get("cost", []))
@@ -54,7 +54,7 @@ class BuildingsCard():
         
 
     def parse_item_cost(self, item_list):
-        print("item",item_list)
+        #print("item",item_list)
         # convert ["2 grain", "4 stone"] into {"grain": 2, "stone": 4}
         return {x.split(" ")[1]: float(x.split(" ")[0]) for x in item_list}
 

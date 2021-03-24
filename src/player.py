@@ -60,7 +60,7 @@ class Player:
             self.building_card_hand.append(card)
 
     def adjust_market(self):
-        self.log("adjust market")
+        self.log("ADJUST MARKET")
         # Player adjusts market price of its inventory items
         self.market = {}
         for item, amount in self.inventory.items():
@@ -71,7 +71,7 @@ class Player:
         self.log(self.inventory)
         
     def trade(self):
-        self.log("trade")
+        self.log("TRADE")
         # Player select a fellow merchant player to trade with
         fellow_merchant = random.choice(self.other_players_ref)
         self.log("Choosing player {} to trade with".format(fellow_merchant.player_id))
@@ -82,23 +82,25 @@ class Player:
             price = fellow_merchant.market[item]
             max_amount = self.money // price
             max_amount = min(max_amount,fellow_merchant.inventory[item])
-            amount = random.randint(0, max_amount)
+            amount = random.randint(1, max_amount)
             self.buy(item, amount, fellow_merchant)
             
         return None
 
     def build(self):
-        print("player {}: build".format(self.player_id))
+        self.log("BUILD")
         # build building action
+        
         can_build_buildings = [(i,x) for i, x in enumerate(self.building_card_hand) if x.can_build(self.inventory)]
         if len(can_build_buildings) > 0:
             to_build_choice = random.choice(can_build_buildings)
             to_build_idx = to_build_choice[0]
             to_build = to_build_choice[1]
+            
             # pay building cost
             for item, cost in to_build.cost.items():
                 self.inventory[item] -= cost
-            print("player {}: building".format(self.player_id,to_build))
+            self.log("building {}".format(to_build.name))
             # build
             self.buildings.append(to_build)
             self.building_card_hand.pop(to_build_idx)

@@ -4,7 +4,7 @@ from building import BuildingDeck
 import pandas as pd
 
 class Game:
-    def __init__(self, num_players):
+    def __init__(self, num_players, init_inventory={"wood": 15, "grain": 15}):
         # 1. Adjust Market
         # 2. Trade
         # 3. Build
@@ -20,11 +20,11 @@ class Game:
             other_players = [x for x in self.players if x != player]
             player.set_player_refs(other_players, self.builidng_deck)
             player.draw_start_cards(self.builidng_deck)
-            player.init_inventory({"wood": 15, "grain": 15}, self.builidng_deck)
+            player.init_inventory(init_inventory, self.builidng_deck)
         
     def run(self):
         
-        num_rounds = 10
+        num_rounds = 2
         self.print_game_stats()
 
         for round in range(num_rounds):
@@ -44,7 +44,7 @@ class Game:
             
         self.print_game_results()
         for player in self.players:
-            print("Player stats")
+            print("Player {} stats".format(player.player_id))
             print(pd.DataFrame(player.player_inventory_history))
             print(pd.DataFrame(player.player_money_history))
         return None
