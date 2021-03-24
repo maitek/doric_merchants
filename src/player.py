@@ -128,16 +128,22 @@ class Player:
             for production_option in building.production:
                 
                 # TODO choose what to produce
-
-                # pay production cost
+                #import pdb; pdb.set_trace()
+                
+                can_afford = True
                 for item_name, item_amount in production_option["cost"].items():
-                    if self.inventory[item_name] - item_amount >= 0: 
+                    if self.inventory[item_name] - item_amount < 0: 
+                        can_afford = False
+                 
+                if can_afford:
+                    # pay production cost
+                    for item_name, item_amount in production_option["cost"].items():
                         self.inventory[item_name] -= item_amount
-                    else:
-                        continue
-                # get produced items
-                for item_name, item_amount in production_option["result"].items():    
-                    self.inventory[item_name] += item_amount
+
+                    # get produced items
+                    for item_name, item_amount in production_option["result"].items():
+                        self.inventory[item_name] += item_amount
+                    self.log("Producing {} {} from {}".format(item_amount,item_name,building.name))
         return None
 
     def log_data(self):
