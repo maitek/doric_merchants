@@ -35,12 +35,12 @@ class Game:
                     player_state_func = getattr(player, state)
                     player_state_func()
             
-            # book keeping
+            # book keeping of player data
             for player in self.players:
                 player.log_data()
 
             self.print_game_stats()
-
+            
             
         self.print_game_results()
         for player in self.players:

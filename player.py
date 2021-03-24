@@ -1,4 +1,5 @@
 import random
+from copy import copy
 
 class Player:
     def __init__(self, player_id):
@@ -14,8 +15,7 @@ class Player:
         # bookeeping history
         self.player_inventory_history = list()
         self.player_money_history = list()
-
-    
+  
     def log(self, log_string):
         print("Player {}: {}".format(self.player_id, log_string))
  
@@ -98,6 +98,7 @@ class Player:
             # pay building cost
             for item, cost in to_build.cost.items():
                 self.inventory[item] -= cost
+            print("player {}: building".format(self.player_id,to_build))
             # build
             self.buildings.append(to_build)
             self.building_card_hand.pop(to_build_idx)
@@ -136,7 +137,7 @@ class Player:
         return None
 
     def log_data(self):
-            self.player_inventory_history.append(self.inventory)
-            self.player_money_history.append(self.money)
+            self.player_inventory_history.append(copy(self.inventory))
+            self.player_money_history.append(copy(self.money))
     
 
