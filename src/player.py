@@ -110,7 +110,9 @@ class Player:
         # change building card action
         if len(self.building_card_hand) > 0: 
             to_change_idx = random.randint(0,len(self.building_card_hand)-1)
+            discard_card = self.building_card_hand[to_change_idx]
             self.building_card_hand.pop(to_change_idx)
+            self.building_deck_ref.discard_card(discard_card)
 
         # TODO discard pile
 
@@ -164,3 +166,5 @@ def test_player_buy():
     players = [Player(player_id=x) for x in range(2)]
     builidng_deck = BuildingDeck()
     
+
+# Bug, inventory goes to negative

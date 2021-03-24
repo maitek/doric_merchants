@@ -9,17 +9,17 @@
 # to balance players and prevent one player from getting to much money tax can be applied, e.g. 10% tax: players must give away 10 percent of their money (rounded down) after every income turn
 
 deck:
-  - {card: Forest,  num: 7}
-  - {card: Fields,  num: 7}
-  - {card: Stone Quarry,  num: 7}
-  - {card: Smelter,  num: 5}
-  - {card: Blacksmith,  num: 5}
-  - {card: Temple,  num: 5}
-  - {card: Library,  num: 5}
-  - {card: Academy,  num: 5}
-  - {card: Town Hall,  num: 3}
-  - {card: Statue,  num: 8}
-  - {card: Fountain,  num: 8}
+  - {card: Forest,  num: 15}
+  - {card: Fields,  num: 15}
+  - {card: Stone Quarry,  num: 15}
+  - {card: Smelter,  num: 15}
+  - {card: Blacksmith,  num: 15}
+  - {card: Temple,  num: 15}
+  - {card: Library,  num: 15}
+  - {card: Academy,  num: 15}
+  - {card: Town Hall,  num: 15}
+  - {card: Statue,  num: 15}
+  - {card: Fountain,  num: 15}
 
 
 

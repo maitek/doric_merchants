@@ -34,6 +34,9 @@ class BuildingDeck():
 
     def draw_card(self):
         return self.cards.pop()
+
+    def discard_card(self,card):
+        return self.cards.append(card)
     
     def shuffle_(self):
         random.shuffle(self.cards)
