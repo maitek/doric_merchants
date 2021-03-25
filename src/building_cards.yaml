@@ -100,9 +100,9 @@ card:
       - 1 wood
       - 1 lime_stone
     production:
-      - {"cost": ["2 ore"], result: ["2 copper"]}
+      - {"cost": ["1 ore"], result: ["2 copper"]}
       - {"cost": ["1 ore"], result: ["1 tin"]}
-      - {"cost": ["1 ore"], result: ["1 gold"]}
+      - {"cost": ["2 ore"], result: ["1 gold"]}
       - {"cost": ["1 tin", "2 copper"], result: ["3 bronze"]}
     victory_points: 2
 

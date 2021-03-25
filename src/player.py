@@ -130,7 +130,6 @@ class Player:
         for building in self.buildings:
 
             # choose among production options
-
             can_afford_options = []
             for production_option in building.production:
                 can_afford = True
@@ -140,9 +139,10 @@ class Player:
                 if can_afford:
                     can_afford_options.append(production_option)
 
-            production_option = random.choice(building.production)
+            if len(can_afford_options) > 0:
+                # select what to produce
+                production_option = random.choice(can_afford_options)
 
-            if can_afford:
                 # pay production cost
                 for item_name, item_amount in production_option["cost"].items():
                     self.inventory[item_name] -= item_amount
@@ -151,6 +151,7 @@ class Player:
                 for item_name, item_amount in production_option["result"].items():
                     self.inventory[item_name] += item_amount
                 self.log("Producing {} {} from {} at cost {}".format(item_amount,item_name,building.name,production_option["cost"]))
+                
         return None
 
     def log_data(self):
